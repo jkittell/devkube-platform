@@ -5,11 +5,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email:
-      valueFrom:
-        secretKeyRef:
-          name: cert-manager-email
-          key: email
+    email: jkittell@protonmail.com
     privateKeySecretRef:
       name: letsencrypt-prod
     solvers:
