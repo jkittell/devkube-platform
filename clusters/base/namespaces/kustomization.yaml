@@ -3,6 +3,7 @@ kind: Kustomization
 
 resources:
   - databases.yaml
+  - infrastructure.yaml
   - messaging.yaml
   - monitoring.yaml
   - search.yaml
