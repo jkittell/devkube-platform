@@ -1,2 +1,3 @@
 # Ignore cert-manager email secret
 clusters/base/ingress/email-secret.yaml
+.DS_Store
