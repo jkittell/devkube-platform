@@ -5,7 +5,8 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email:valueFrom:
+    email:
+      valueFrom:
         secretKeyRef:
           name: cert-manager-email
           key: email
