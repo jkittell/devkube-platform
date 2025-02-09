@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: minio-init
+  namespace: storage
+spec:
+  template:
+    spec:
+      initContainers:
+      - name: wait-for-minio
+        image: busybox
+        command: ['sh', '-c', 'until nc -z minio.storage.svc.cluster.local 9000; do echo waiting for minio; sleep 2; done;']
+      containers:
+      - name: create-buckets
+        image: minio/mc
+        command:
+        - /bin/sh
+        - -c
+        - |
+          mc alias set local http://minio.storage.svc.cluster.local:9000 admin admin123 && \
+          mc mb local/tempo-data || true
+      restartPolicy: OnFailure

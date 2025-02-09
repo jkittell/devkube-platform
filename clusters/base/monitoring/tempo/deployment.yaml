@@ -13,6 +13,22 @@ spec:
       labels:
         app: tempo
     spec:
+      initContainers:
+      - name: wait-for-minio
+        image: minio/mc
+        command:
+        - /bin/sh
+        - -c
+        - |
+          until mc alias set local http://minio.storage.svc.cluster.local:9000 admin admin123; do
+            echo "Waiting for MinIO..."
+            sleep 2
+          done
+          until mc ls local/tempo-data; do
+            echo "Waiting for tempo-data bucket..."
+            sleep 2
+          done
+          echo "MinIO and bucket are ready!"
       containers:
       - name: tempo
         image: grafana/tempo:latest
