@@ -4,7 +4,7 @@ namespace: infrastructure
 resources:
   - https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.6.4/deploy/static/provider/cloud/deploy.yaml
   - clusterissuer.yaml
-  - email-secret.yaml
+  - cert-manager-email.yaml
 
 generatorOptions:
   disableNameSuffixHash: true
