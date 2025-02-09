@@ -17,4 +17,4 @@ vars:
       namespace: infrastructure
       apiVersion: v1
     fieldref:
-      fieldpath: data.email
+      fieldpath: stringData.email
