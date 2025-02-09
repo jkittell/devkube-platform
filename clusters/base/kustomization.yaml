@@ -2,8 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 resources:
-  - namespaces        # Create namespaces first
-  - cert-manager      # Install cert-manager
+  - cert-manager      # Install cert-manager (creates its own namespace)
+  - namespaces       # Create other namespaces
   - ingress
   - databases      
   - messaging
