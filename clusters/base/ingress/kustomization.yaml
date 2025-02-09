@@ -8,13 +8,3 @@ resources:
 
 generatorOptions:
   disableNameSuffixHash: true
-
-vars:
-  - name: EMAIL
-    objref:
-      kind: Secret
-      name: cert-manager-email
-      namespace: infrastructure
-      apiVersion: v1
-    fieldref:
-      fieldpath: stringData.email
