@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: crate
+  namespace: databases
+spec:
+  serviceName: "crate"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: crate
+  template:
+    metadata:
+      labels:
+        app: crate
+    spec:
+      containers:
+      - name: crate
+        image: crate
+        ports:
+        - containerPort: 4200
+        - containerPort: 5432
+        volumeMounts:
+        - name: data
+          mountPath: /data
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: crate-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  hostPath:
+    path: "/mnt/data"

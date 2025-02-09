@@ -1,0 +1,2 @@
+domain: dev.example.com
+clusterIssuer: letsencrypt-staging

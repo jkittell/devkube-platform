@@ -1,0 +1,13 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: crate-cert
+  namespace: databases
+spec:
+  secretName: crate-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: crate.example.com
+  dnsNames:
+  - crate.example.com

@@ -1,0 +1,2 @@
+# Ignore cert-manager email secret
+clusters/base/ingress/email-secret.yaml

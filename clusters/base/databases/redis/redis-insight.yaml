@@ -1,0 +1,90 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-insight
+  namespace: databases
+  labels:
+    app: redis-insight
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-insight
+  template:
+    metadata:
+      labels:
+        app: redis-insight
+    spec:
+      containers:
+      - name: redis-insight
+        image: redislabs/redisinsight:1.7.0
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: db 
+          mountPath: /db
+        ports:
+        - containerPort: 8001
+          protocol: TCP
+      volumes:
+      - name: db
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-insight-service
+  namespace: databases
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8001
+  selector:
+    app: redis-insight
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: redis-insight-cert
+  namespace: databases
+spec:
+  secretName: redis-insight-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: redis-insight.example.com
+  dnsNames:
+  - redis-insight.example.com
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: redis-insight-ingress
+  namespace: databases
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/backend-protocol: HTTP
+spec:
+  tls:
+  - hosts:
+    - redis-insight.example.com
+    secretName: redis-insight-tls
+  rules:
+  - host: redis-insight.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: redis-insight-service 
+            port:
+              number: 80

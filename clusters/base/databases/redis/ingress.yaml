@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: redis-ingress
+  namespace: databases
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+  - hosts:
+    - redis.example.com
+    secretName: redis-tls
+  rules:
+  - host: redis.example.com
+    tcp:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: redis
+            port:
+              number: 6379

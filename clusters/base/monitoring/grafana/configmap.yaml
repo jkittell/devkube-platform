@@ -1,0 +1,89 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-datasources
+  namespace: monitoring
+data:
+  datasource.yaml: |
+    apiVersion: 1
+    datasources:
+      - name: CrateDB
+        type: grafana-postgresql-datasource
+        access: proxy
+        url: crate.databases.svc.cluster.local:5432
+        database: crate
+        user: crate
+        secureJsonData:
+          password: ""
+        jsonData:
+          sslmode: 'disable'
+          postgresVersion: 1400
+          timescaledb: false
+        isDefault: false
+        editable: true
+
+      - name: Redis
+        type: redis-datasource
+        access: proxy
+        url: redis://redis.databases.svc.cluster.local:6379
+        jsonData:
+          client: standalone
+          poolSize: 5
+          timeout: 10
+          pingInterval: 0
+          pipelineWindow: 0
+        isDefault: false
+        editable: true
+
+      - name: Loki
+        type: loki
+        access: proxy
+        url: http://loki.monitoring.svc.cluster.local:3100
+        jsonData:
+          maxLines: 1000
+          derivedFields:
+            - name: "traceID"
+              matcherRegex: "traceID=(\\w+)"
+              url: "$${__value.raw}"
+              datasourceUid: "Tempo"
+        isDefault: false
+        editable: true
+
+      - name: Prometheus
+        type: prometheus
+        access: proxy
+        url: http://prometheus.monitoring.svc.cluster.local:9090
+        jsonData:
+          httpMethod: POST
+          manageAlerts: true
+          prometheusType: Prometheus
+          prometheusVersion: 2.45.0
+          exemplarTraceIdDestinations:
+            - name: traceID
+              datasourceUid: Tempo
+        isDefault: true
+        editable: true
+
+      - name: Tempo
+        type: tempo
+        access: proxy
+        url: http://tempo.monitoring.svc.cluster.local
+        jsonData:
+          httpMethod: GET
+          nodeGraph:
+            enabled: true
+          search:
+            hide: false
+          lokiSearch:
+            datasourceUid: Loki
+          tracesToLogs:
+            datasourceUid: Loki
+            tags: ['job', 'instance', 'pod', 'namespace']
+            mappedTags: [{ key: 'service.name', value: 'service' }]
+            mapTagNamesEnabled: false
+            spanStartTimeShift: '1h'
+            spanEndTimeShift: '1h'
+            filterByTraceID: false
+            filterBySpanID: false
+        isDefault: false
+        editable: true
