@@ -9,10 +9,10 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - crate.example.com
+    - crate.devkube.com
     secretName: multi-domain-tls
   rules:
-  - host: crate.example.com
+  - host: crate.devkube.com
     http:
       paths:
       - path: /

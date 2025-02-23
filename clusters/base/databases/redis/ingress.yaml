@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - redis.example.com
+    - redis.devkube.com
     secretName: redis-tls
   rules:
-  - host: redis.example.com
+  - host: redis.devkube.com
     tcp:
       paths:
       - path: /

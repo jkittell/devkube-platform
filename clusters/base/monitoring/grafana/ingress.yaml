@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - grafana.example.com
+    - grafana.devkube.com
     secretName: grafana-tls
   rules:
-  - host: grafana.example.com
+  - host: grafana.devkube.com
     http:
       paths:
       - path: /

@@ -9,11 +9,11 @@ spec:
   ingressClassName: nginx
   tls:
   - hosts:
-    - tempo.example.com
-    - tempo-grpc.example.com
+    - tempo.devkube.com
+    - tempo-grpc.devkube.com
     secretName: multi-domain-tls
   rules:
-  - host: tempo.example.com
+  - host: tempo.devkube.com
     http:
       paths:
       - path: /
@@ -23,7 +23,7 @@ spec:
             name: tempo
             port:
               number: 3200
-  - host: tempo-grpc.example.com
+  - host: tempo-grpc.devkube.com
     http:
       paths:
       - path: /

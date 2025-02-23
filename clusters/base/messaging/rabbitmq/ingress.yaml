@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - rabbitmq.example.com
+    - rabbitmq.devkube.com
     secretName: rabbitmq-tls
   rules:
-  - host: rabbitmq.example.com
+  - host: rabbitmq.devkube.com
     http:
       paths:
       - path: /

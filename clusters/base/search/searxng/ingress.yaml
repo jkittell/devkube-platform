@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - searxng.example.com
+    - searxng.devkube.com
     secretName: searxng-tls
   rules:
-  - host: searxng.example.com
+  - host: searxng.devkube.com
     http:
       paths:
       - path: /

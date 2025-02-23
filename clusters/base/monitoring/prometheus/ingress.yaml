@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - prometheus.example.com
+    - prometheus.devkube.com
     secretName: prometheus-tls
   rules:
-  - host: prometheus.example.com
+  - host: prometheus.devkube.com
     http:
       paths:
       - path: /

@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - minio.example.com
+    - minio.devkube.com
     secretName: minio-tls
   rules:
-  - host: minio.example.com
+  - host: minio.devkube.com
     http:
       paths:
       - path: /

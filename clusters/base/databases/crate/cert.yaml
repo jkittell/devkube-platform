@@ -8,6 +8,6 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: crate.example.com
+  commonName: crate.devkube.com
   dnsNames:
-  - crate.example.com
+  - crate.devkube.com

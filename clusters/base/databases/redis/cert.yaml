@@ -8,6 +8,6 @@ spec:
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
-  commonName: redis.example.com
+  commonName: redis.devkube.com
   dnsNames:
-  - redis.example.com
+  - redis.devkube.com

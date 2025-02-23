@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - loki.example.com
+    - loki.devkube.com
     secretName: loki-tls
   rules:
-  - host: loki.example.com
+  - host: loki.devkube.com
     http:
       paths:
       - path: /
